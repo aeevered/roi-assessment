@@ -34,7 +34,7 @@ Connection details (match **`.dbt/profiles.yml`**):
 | Setting   | Value          |
 |-----------|----------------|
 | host      | localhost     |
-| port      | 5432`          |
+| port      | 5432          |
 | database  | roi_assessment |
 | user      | roi            |
 | password  | roi            |
