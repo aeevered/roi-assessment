@@ -6,31 +6,16 @@ Transform the provided **Marketplace** dataset into a **star schema** with **dbt
 
 - **Docker** (for Postgres)
 - **Python 3.8+** (for dbt)
-- **Git** (to clone or update the sibling **job-assessment** repository)
 
 ## Seed Data (from `job-assessment`)
 
-Keep **`job-assessment`** as a **separate Git repository** in the **same parent directory** as **roi-assessment** (siblings), not inside this repo:
+Clone **`job-assessment`** as a separate Git repository to the same parent directory as roi-assessment:
 
 ```text
 your-projects/
   job-assessment/     # clone here — contains ddl.sql, data.sql
-  roi-assessment/     # this dbt project (docker-compose lives here)
+  roi-assessment/     # this dbt project
 ```
-
-Clone or update **job-assessment** next to this project (replace **`OWNER`** with the GitHub org or user that hosts that repo):
-
-```bash
-cd /path/to/your-projects   # parent folder that will hold both repos
-
-git clone https://github.com/OWNER/job-assessment.git
-# clone or copy roi-assessment into the same parent if you have not already
-
-# Later: refresh SQL files
-git -C job-assessment pull
-```
-
-`docker-compose.yml` mounts **`../job-assessment`** (sibling path) into the container as `/sql`; `db/init` runs `\i /sql/ddl.sql` and `\i /sql/data.sql` on first database boot. Run **`docker compose`** from **`roi-assessment/`** so the relative path resolves.
 
 ## Quickstart
 
@@ -85,7 +70,7 @@ dbt build
 
 ### Common commands
 
-If you did **not** set `DBT_PROFILES_DIR`, add **`--profiles-dir ./.dbt`** to each command below.
+If you did **not** set `DBT_PROFILES_DIR`, include **`--profiles-dir ./.dbt`** for each command.
 
 ```bash
 # Models + tests
