@@ -1,0 +1,5 @@
+# Keep dbt-core and adapter compatible
+dbt-core<1.9
+dbt-postgres==1.8.2
+# Avoid source builds on macOS/Python 3.8 without Xcode CLT
+msgpack==1.0.8

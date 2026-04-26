@@ -1,0 +1,66 @@
+version: 2
+
+models:
+  - name: dim_customer
+    columns:
+      - name: customer_id
+        tests: [not_null, unique]
+
+  - name: dim_customer_address
+    columns:
+      - name: address_id
+        tests: [not_null, unique]
+
+  - name: dim_seller
+    columns:
+      - name: seller_id
+        tests: [not_null, unique]
+
+  - name: dim_product
+    columns:
+      - name: product_id
+        tests: [not_null, unique]
+
+  - name: fct_order_items
+    columns:
+      - name: order_line_id
+        tests: [not_null, unique]
+      - name: order_id
+        tests: [not_null]
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+      - name: seller_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_seller')
+              field: seller_id
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: product_id
+      - name: address_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer_address')
+              field: address_id
+      - name: quantity
+        tests:
+          - not_null
+          - non_negative
+      - name: unit_price_at_sale
+        tests:
+          - not_null
+          - non_negative
+      - name: item_amount
+        tests:
+          - not_null
+          - non_negative
+

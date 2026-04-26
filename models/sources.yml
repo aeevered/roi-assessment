@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: marketplace
+    schema: public
+    description: >
+      Raw marketplace tables. Freshness uses business/row timestamps available in the seed DDL
+      (not pipeline load times). In production, prefer a dedicated _loaded_at from ingestion.
+
+    tables:
+      - name: customer
+        description: Customers; row created_at used as a proxy for freshness in this demo.
+        columns:
+          - name: created_at
+            description: Customer row timestamp (seed); used for source freshness checks.
+        freshness:
+          warn_after: {count: 1825, period: day}
+          error_after: {count: 3650, period: day}
+        loaded_at_field: created_at
+
+      - name: customer_address
+      - name: seller
+      - name: product
+      - name: seller_product_price
+        description: Current price per seller-product; updated_at drives SCD and freshness.
+        columns:
+          - name: updated_at
+            description: Last price/stock update (seed); used for freshness and snapshots.
+        freshness:
+          warn_after: {count: 1825, period: day}
+          error_after: {count: 3650, period: day}
+        loaded_at_field: updated_at
+
+      - name: orders
+        description: Order headers; order_date used as a proxy for how recent transactional data is.
+        columns:
+          - name: order_date
+            description: Order placed at (seed); used as loaded_at_field for freshness demo.
+        freshness:
+          warn_after: {count: 1825, period: day}
+          error_after: {count: 3650, period: day}
+        loaded_at_field: order_date
+
+      - name: order_line

@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: stg_marketplace__customer
+    columns:
+      - name: customer_id
+        tests: [not_null, unique]
+
+  - name: stg_marketplace__customer_address
+    columns:
+      - name: address_id
+        tests: [not_null, unique]
+
+  - name: stg_marketplace__seller
+    columns:
+      - name: seller_id
+        tests: [not_null, unique]
+
+  - name: stg_marketplace__product
+    columns:
+      - name: product_id
+        tests: [not_null, unique]
+
+  - name: stg_marketplace__seller_product_price
+    columns:
+      - name: seller_id
+        tests: [not_null]
+      - name: product_id
+        tests: [not_null]
+
+  - name: stg_marketplace__orders
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+
+  - name: stg_marketplace__order_line
+    columns:
+      - name: order_line_id
+        tests: [not_null, unique]
+

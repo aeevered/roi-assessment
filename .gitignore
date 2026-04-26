@@ -1,0 +1,14 @@
+# dbt
+target/
+dbt_packages/
+logs/
+.user.yml
+profiles.yml
+
+# python
+.venv/
+__pycache__/
+.python-version
+
+# misc
+.DS_Store

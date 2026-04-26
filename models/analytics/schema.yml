@@ -1,0 +1,7 @@
+version: 2
+
+models:
+  - name: top_sellers
+  - name: top_products
+  - name: top_customer_locations
+

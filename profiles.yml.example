@@ -1,0 +1,12 @@
+roi_assessment:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: roi
+      password: roi
+      port: 5432
+      dbname: roi_assessment
+      schema: public
+      threads: 4

@@ -1,0 +1,37 @@
+name: roi_assessment
+version: "1.0.0"
+config-version: 2
+
+profile: roi_assessment
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  roi_assessment:
+    +materialized: view
+    staging:
+      +schema: staging
+      +materialized: view
+    marts:
+      +schema: marts
+      +materialized: table
+    analytics:
+      +schema: analytics
+      +materialized: view
+    examples:
+      +schema: examples
+      +materialized: incremental
+
+snapshots:
+  roi_assessment:
+    +target_schema: snapshots

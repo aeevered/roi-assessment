@@ -1,0 +1,7 @@
+version: 2
+
+models:
+  - name: int_orders_incremental
+    description: >
+      Example incremental model over staging orders (merge by order_id). Demonstrates
+      is_incremental and a high-water mark on order_date for append-only loads.
