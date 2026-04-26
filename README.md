@@ -7,9 +7,9 @@ Transform the provided **Marketplace** dataset into a **star schema** with **dbt
 - **Docker** (for Postgres)
 - **Python 3.8+** (for dbt)
 
-## Seed Data (from `job-assessment`)
+## Seed Data (from job-assessment)
 
-Clone **`job-assessment`** as a separate Git repository to the same parent directory as roi-assessment:
+Clone `job-assessment` as a separate Git repository to the same parent directory as roi-assessment:
 
 ```text
 your-projects/
@@ -31,13 +31,13 @@ docker compose up -d
 
 Connection details (match **`.dbt/profiles.yml`**):
 
-| Setting   | Value            |
-|-----------|------------------|
-| host      | `localhost`      |
-| port      | `5432`           |
-| database  | `roi_assessment` |
-| user      | `roi`            |
-| password  | `roi`            |
+| Setting   | Value          |
+|-----------|----------------|
+| host      | localhost     |
+| port      | 5432`          |
+| database  | roi_assessment |
+| user      | roi            |
+| password  | roi            |
 
 Reset the database (re-runs init scripts):
 
@@ -60,7 +60,7 @@ pip install -r requirements.txt
 
 Use the project-local profile: **`.dbt/profiles.yml`**. Copy from **`profiles.yml.example`** if needed.
 
-dbt does **not** read `profiles-dir` from `dbt_project.yml`. You can either pass **`--profiles-dir ./.dbt`** on each command, or set the environment variable **`DBT_PROFILES_DIR`** once (from this repo root) so every `dbt` command uses **`.dbt/`** by default:
+dbt does not read `profiles-dir` from `dbt_project.yml`. You can either pass `--profiles-dir ./.dbt` on each command, or set the environment variable `DBT_PROFILES_DIR` once (from this repo root) so every `dbt` command uses **`.dbt/` by default:
 
 ```bash
 export DBT_PROFILES_DIR="$PWD/.dbt"
@@ -70,36 +70,36 @@ dbt build
 
 ### Common commands
 
-If you did **not** set `DBT_PROFILES_DIR`, include **`--profiles-dir ./.dbt`** for each command.
+If you did not set `DBT_PROFILES_DIR`, include `--profiles-dir ./.dbt` for each command.
 
 ```bash
 # Models + tests
 dbt build --profiles-dir ./.dbt
 
-# Source freshness (customer, orders, seller_product_price — see models/sources.yml)
+# Source freshness
 dbt source freshness --profiles-dir ./.dbt
 
-# Type-2 snapshot on seller_product_price
+# Type-2 snapshot Example
 dbt snapshot --profiles-dir ./.dbt -s scd_seller_product_price
 
-# Example incremental model
+# Incremental Model Example
 dbt run --profiles-dir ./.dbt -s int_orders_incremental
 ```
 
-### Layering (schemas)
+### Data Transformation Layers
 
-Configured in **`dbt_project.yml`**: staging and analytics default to **views**; marts default to **tables**.
+Configured in `dbt_project.yml`
 
-| Layer         | Path / schema                  | Contents |
+| Layer         | Path / Schema                  | Contents |
 |---------------|--------------------------------|----------|
 | **Sources**   | `public`                       | `models/sources.yml` → `marketplace` |
 | **Staging**   | `models/staging/` → `staging`  | `stg_marketplace__*`|
 | **Marts**     | `models/marts/` → `marts`      | `dim_customer`, `dim_customer_address`, `dim_seller`, `dim_product`, `fct_order_items`|
 | **Analytics** | `models/analytics/` → `analytics` | `top_sellers`, `top_products`, `top_customer_locations` (metrics + `dense_rank` per measure) |
-| **Examples**  | `models/examples/` → `examples` | **`int_orders_incremental`** |
+| **Examples**  | `models/examples/` → `examples` | `int_orders_incremental` |
 | **Snapshots** | `snapshots/` → `snapshots`     | `scd_seller_product_price` |
 
 ### Tests and quality
 
-- **Generic tests** in `models/staging/schema.yml` and `models/marts/schema.yml` (`not_null`, `unique`, `relationships`, custom **`non_negative`** macro in `macros/tests/non_negative.sql`).
+- **Generic tests** in `models/staging/schema.yml` and `models/marts/schema.yml` (`not_null`, `unique`, `relationships`, custom `non_negative` macro in `macros/tests/non_negative.sql`).
 - **Singular tests** in `tests/`.
