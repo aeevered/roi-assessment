@@ -1,5 +1,6 @@
 with orders as (
     select * from {{ ref('stg_marketplace__orders') }}
+    where status is not 'cancelled'
 ),
 
 items as (
