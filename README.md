@@ -1,13 +1,13 @@
 # roi-assessment
 
-Transform the provided **Marketplace** dataset into a **star schema** with **dbt**, plus analytics for **top sellers**, **top products**, and **top customer locations** (with **dense-rank** columns on key measures).
+Transform the provided Marketplace dataset into a star schema with dbt, plus analytics for top sellers, top products, and top customer locations.
 
 ## Prerequisites
 
 - **Docker** (for Postgres)
 - **Python 3.8+** (for dbt)
 
-## Seed Data (from job-assessment)
+## Database setup
 
 Clone `job-assessment` as a separate Git repository to the same parent directory as roi-assessment:
 
@@ -17,13 +17,9 @@ your-projects/
   roi-assessment/     # this dbt project
 ```
 
-## Quickstart
-
 ```bash
 cd /path/to/roi-assessment
 ```
-
-## Database setup (Docker Compose)
 
 ```bash
 docker compose up -d
@@ -46,7 +42,7 @@ docker compose down -v
 docker compose up -d
 ```
 
-## dbt project (`roi_assessment`)
+## dbt project
 
 ### Install
 
