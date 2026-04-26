@@ -7,7 +7,13 @@ Transform the provided Marketplace dataset into a star schema with dbt, plus ana
 - **Docker** (for Postgres)
 - **Python 3.8+** (for dbt)
 
-## Seed Data (from job-assessment)
+## Quickstart
+
+```bash
+cd /path/to/roi-assessment
+```
+
+### Seed Data (from job-assessment)
 
 Clone `job-assessment` as a separate Git repository to the same parent directory as roi-assessment:
 
@@ -17,13 +23,7 @@ your-projects/
   roi-assessment/     # this dbt project
 ```
 
-## Quickstart
-
-```bash
-cd /path/to/roi-assessment
-```
-
-## Database setup (Docker Compose)
+### Database setup
 
 ```bash
 docker compose up -d

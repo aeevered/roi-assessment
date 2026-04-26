@@ -5,16 +5,12 @@ config-version: 2
 profile: roi_assessment
 
 model-paths: ["models"]
-analysis-paths: ["analyses"]
 test-paths: ["tests"]
 seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
 target-path: "target"
-clean-targets:
-  - "target"
-  - "dbt_packages"
 
 models:
   roi_assessment:
@@ -30,7 +26,7 @@ models:
       +materialized: view
     examples:
       +schema: examples
-      +materialized: incremental
+      +materialized: table
 
 snapshots:
   roi_assessment:
