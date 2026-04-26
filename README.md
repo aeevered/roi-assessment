@@ -6,16 +6,31 @@ Transform the provided **Marketplace** dataset into a **star schema** with **dbt
 
 - **Docker** (for Postgres)
 - **Python 3.8+** (for dbt)
-- A **`job-assessment/`** directory **inside this repository** at the project root (next to `docker-compose.yml`) containing **`ddl.sql`** and **`data.sql`** (same files as the assessment bundle). Docker mounts `./job-assessment` into Postgres init.
+- **Git** (to clone or update the sibling **job-assessment** repository)
 
-## Repository layout and data
+## Data bundle (`job-assessment`)
 
-Expected paths **in this repo**:
+Keep **`job-assessment`** as a **separate Git repository** in the **same parent directory** as **roi-assessment** (siblings), not inside this repo:
 
-- **`job-assessment/ddl.sql`** — table definitions  
-- **`job-assessment/data.sql`** — seed inserts  
+```text
+your-projects/
+  job-assessment/     # clone here — contains ddl.sql, data.sql
+  roi-assessment/     # this dbt project (docker-compose lives here)
+```
 
-`docker-compose.yml` mounts **`./job-assessment`** as `/sql` in the container; `db/init` runs `\i /sql/ddl.sql` and `\i /sql/data.sql` on first database boot.
+Clone or update **job-assessment** next to this project (replace **`OWNER`** with the GitHub org or user that hosts that repo):
+
+```bash
+cd /path/to/your-projects   # parent folder that will hold both repos
+
+git clone https://github.com/OWNER/job-assessment.git
+# clone or copy roi-assessment into the same parent if you have not already
+
+# Later: refresh SQL files
+git -C job-assessment pull
+```
+
+`docker-compose.yml` mounts **`../job-assessment`** (sibling path) into the container as `/sql`; `db/init` runs `\i /sql/ddl.sql` and `\i /sql/data.sql` on first database boot. Run **`docker compose`** from **`roi-assessment/`** so the relative path resolves.
 
 **Data note:** the seed has **100 orders** but only **60** have any `order_line` rows. The fact table is **line-level** and uses an **inner join** to orders, so header-only orders do not appear in `fct_order_items` or downstream analytics.
 
@@ -70,8 +85,6 @@ dbt debug
 dbt build
 ```
 
-For a persistent default while you work only in this directory, use **[direnv](https://direnv.net/)** with **`.envrc`** containing `export DBT_PROFILES_DIR="$PWD/.dbt"`, or merge the same `outputs` block into **`~/.dbt/profiles.yml`** under **`roi_assessment`** so the global default profile applies.
-
 ### Common commands
 
 If you did **not** set `DBT_PROFILES_DIR`, add **`--profiles-dir ./.dbt`** to each command below.
@@ -96,12 +109,12 @@ Configured in **`dbt_project.yml`**: staging and analytics default to **views**;
 
 | Layer         | Path / schema                  | Contents |
 |---------------|--------------------------------|----------|
-| **Sources**   | `public`                       | `models/sources.yml` → `marketplace` (includes **freshness** on selected tables) |
-| **Staging**   | `models/staging/` → `staging`  | `stg_marketplace__*` views over raw tables |
-| **Marts**     | `models/marts/` → `marts`      | `dim_customer`, `dim_customer_address`, `dim_seller`, `dim_product`, **`fct_order_items`** (`item_amount = quantity * unit_price_at_sale`) |
+| **Sources**   | `public`                       | `models/sources.yml` → `marketplace` |
+| **Staging**   | `models/staging/` → `staging`  | `stg_marketplace__*`|
+| **Marts**     | `models/marts/` → `marts`      | `dim_customer`, `dim_customer_address`, `dim_seller`, `dim_product`, `fct_order_items`|
 | **Analytics** | `models/analytics/` → `analytics` | `top_sellers`, `top_products`, `top_customer_locations` (metrics + `dense_rank` per measure) |
-| **Examples**  | `models/examples/` → `examples` | **`int_orders_incremental`** — incremental merge pattern on orders |
-| **Snapshots** | `snapshots/` → `snapshots`     | **`scd_seller_product_price`** — SCD2 via `timestamp` strategy on `updated_at` |
+| **Examples**  | `models/examples/` → `examples` | **`int_orders_incremental`** |
+| **Snapshots** | `snapshots/` → `snapshots`     | `scd_seller_product_price` |
 
 ### Tests and quality
 

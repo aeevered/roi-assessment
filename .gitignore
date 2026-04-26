@@ -10,8 +10,5 @@ profiles.yml
 __pycache__/
 .python-version
 
-# assessment DDL + seed (keep locally; not tracked)
-job-assessment/
-
 # misc
 .DS_Store
