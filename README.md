@@ -8,7 +8,7 @@ Transform the provided **Marketplace** dataset into a **star schema** with **dbt
 - **Python 3.8+** (for dbt)
 - **Git** (to clone or update the sibling **job-assessment** repository)
 
-## Data bundle (`job-assessment`)
+## Seed Data (from `job-assessment`)
 
 Keep **`job-assessment`** as a **separate Git repository** in the **same parent directory** as **roi-assessment** (siblings), not inside this repo:
 
@@ -31,8 +31,6 @@ git -C job-assessment pull
 ```
 
 `docker-compose.yml` mounts **`../job-assessment`** (sibling path) into the container as `/sql`; `db/init` runs `\i /sql/ddl.sql` and `\i /sql/data.sql` on first database boot. Run **`docker compose`** from **`roi-assessment/`** so the relative path resolves.
-
-**Data note:** the seed has **100 orders** but only **60** have any `order_line` rows. The fact table is **line-level** and uses an **inner join** to orders, so header-only orders do not appear in `fct_order_items` or downstream analytics.
 
 ## Quickstart
 
