@@ -58,7 +58,7 @@ pip install -r requirements.txt
 
 ### Profile
 
-Use the project-local profile: **`.dbt/profiles.yml`**. Copy from **`profiles.yml.example`** if needed.
+Use the project-local profile: `.dbt/profiles.yml`. Copy from `profiles.yml.example` if needed.
 
 dbt does not read `profiles-dir` from `dbt_project.yml`. You can either pass `--profiles-dir ./.dbt` on each command, or set the environment variable `DBT_PROFILES_DIR` once (from this repo root) so every `dbt` command uses `.dbt/` by default:
 
