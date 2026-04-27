@@ -25,18 +25,18 @@ default_address as (
 )
 
 select
-    c.customer_id,
-    c.first_name,
-    c.last_name,
-    c.email,
-    c.created_at,
-    a.address_id as default_address_id,
-    a.address_line_1 as default_address_line_1,
-    a.city as default_city,
-    a.state as default_state,
-    a.zip_code as default_zip_code
-from customers c
-left join default_address a
-    on c.customer_id = a.customer_id
-   and a.address_rank = 1
+    customers.customer_id,
+    customers.first_name,
+    customers.last_name,
+    customers.email,
+    customers.created_at,
+    address.address_id as default_address_id,
+    address.address_line_1 as default_address_line_1,
+    address.city as default_city,
+    address.state as default_state,
+    address.zip_code as default_zip_code
+from customers
+left join default_address as address
+    on customers.customer_id = address.customer_id
+   and address.address_rank = 1
 
