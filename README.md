@@ -4,8 +4,8 @@ Transform the provided Marketplace dataset into a star schema with dbt, plus ana
 
 ## Prerequisites
 
-- **Docker** (for Postgres)
-- **Python 3.8+** (for dbt)
+- **Docker**
+- **Python 3.8+**
 
 ## Quickstart
 
@@ -60,7 +60,7 @@ pip install -r requirements.txt
 
 Use the project-local profile: **`.dbt/profiles.yml`**. Copy from **`profiles.yml.example`** if needed.
 
-dbt does not read `profiles-dir` from `dbt_project.yml`. You can either pass `--profiles-dir ./.dbt` on each command, or set the environment variable `DBT_PROFILES_DIR` once (from this repo root) so every `dbt` command uses **`.dbt/` by default:
+dbt does not read `profiles-dir` from `dbt_project.yml`. You can either pass `--profiles-dir ./.dbt` on each command, or set the environment variable `DBT_PROFILES_DIR` once (from this repo root) so every `dbt` command uses `.dbt/` by default:
 
 ```bash
 export DBT_PROFILES_DIR="$PWD/.dbt"
