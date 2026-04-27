@@ -4,8 +4,8 @@ Transform the provided Marketplace dataset into a star schema with dbt, plus ana
 
 ## Prerequisites
 
-- **Docker**
-- **Python 3.8+**
+- Docker
+- Python 3.8+
 
 ## Quickstart
 
@@ -29,7 +29,7 @@ your-projects/
 docker compose up -d
 ```
 
-Connection details (match **`.dbt/profiles.yml`**):
+Connection details (match `.dbt/profiles.yml`):
 
 | Setting   | Value          |
 |-----------|----------------|
